@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пример с меню</title>
+    <link rel="stylesheet" href="kotiki1.css"> <!-- Подключаем внешний CSS файл -->
+</head>
+<body>
+
+    <!-- Хедер -->
+    <header>
+        <div class="logo-wrapper">
+            <img src="фото/logo.png" alt="Логотип" class="logo">
+        </div>
+        <div class="search-wrapper">
+            <div class="search-box" id="searchBox">
+                <div class="search-icon"></div>
+                <input type="text" id="searchInput" class="search-input" placeholder="Поиск...">
+            </div>
+        </div>
+    </header>
+
+    <!-- Меню -->
+    <input type="checkbox" id="menu-toggle">
+    <label for="menu-toggle" class="menu-button">
+        <div class="menu-icon"></div>
+        <span class="azasha-text">Azasha</span> <!-- Добавляем текст "Азаша" -->
+    </label>
+
+    <!-- Первое скрытое меню -->
+    <div class="side-menu">
+        <ul>
+            <!-- Все пункты меню убраны -->
+        </ul>
+    </div>
+
+    <!-- Второе скрытое меню (второй блок) -->
+    <div class="second-side-menu">
+        <ul>
+            <li><a href="#">книги</a></li>
+            <li><a href="#">товары</a></li>
+            <li><a href="#">информация</a></li>
+        </ul>
+    </div>
+
+    <!-- Контент -->
+    <div class="content-block">
+        <!-- Элементы информации будут динамически добавляться сюда -->
+        <div id="info-container">
+            <!-- Здесь будет динамически загружаться информация из localStorage -->
+        </div>
+    </div>
+
+    <script>
+        // Функция для загрузки информации из localStorage и отображения на странице
+        function loadInfo() {
+            const infoItems = JSON.parse(localStorage.getItem('contentItems')) || []; // Загружаем информацию, если она есть
+            const infoContainer = document.getElementById('info-container');
+            infoContainer.innerHTML = '';  // Очистим контейнер перед добавлением новых данных
+
+            // Добавляем каждую запись из массива в контейнер
+            infoItems.forEach(item => {
+                const infoItem = document.createElement('div');
+                infoItem.classList.add('info-item');
+                infoItem.innerHTML = `
+                    <h4>${item.title}</h4>
+                    <p>${item.description}</p>
+                `;
+                infoContainer.appendChild(infoItem);
+            });
+        }
+
+        // Загружаем информацию при загрузке страницы
+        window.onload = loadInfo;
+
+        // Пример для скрытого пароля (для функционала поиска)
+        const correctPassword = "YWRtaW5taWt1c2hhbg=="; // Текст adminmikushan в base64
+        document.getElementById('searchInput').addEventListener('input', function() {
+            let inputText = btoa(this.value); // Преобразуем введённый текст в base64
+            if (inputText === correctPassword) {
+                window.location.href = "vxod.html"; // Переход на другую страницу
+            }
+        });
+    </script>
+
+</body>
+</html>

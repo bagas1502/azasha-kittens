@@ -1,0 +1,360 @@
+/* Подключение собственного шрифта */
+@font-face {
+    font-family: 'MyCustomFont';  /* Название шрифта */
+    src: url('ofont.ru_Sriracha.ttf') format('truetype');  /* Путь к файлу шрифта */
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Убираем отступы и маргины у body и html, чтобы не было пустых мест */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #f7f7f7; /* Желтый фон для страницы */
+    background-image: url('фото/paw-print.png'); /* Фон с лапками */
+    background-size: 40px 40px; /* Размер лапок 40px */
+    background-position: 0 0; /* Начало позиционирования лапок */
+    background-repeat: repeat; /* Повторение лапок по всему фону */
+    position: relative; /* Позволяет позиционировать элементы относительно body */
+}
+
+/* Стили для хедера */
+header {
+    background-color: rgb(141, 235, 1); /* Измененный светлый зеленый цвет фона */
+    width: 100%; /* Хедер на всю ширину экрана */
+    display: flex;
+    align-items: center; /* Центрируем элементы по вертикали */
+    justify-content: space-between; /* Распределяем элементы по краям */
+    height: 55px; /* Высота хедера */
+    position: fixed; /* Закрепляем хедер вверху страницы */
+    top: 0; /* Располагаем хедер в самом верху */
+    left: 0; /* Располагаем хедер по левому краю */
+    z-index: 1000; /* Обеспечиваем, чтобы хедер был всегда поверх другого контента */
+    padding: 0 20px; /* Добавляем отступы слева и справа для хедера */
+    box-sizing: border-box; /* Учитываем padding в размере хедера */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень под хедером */
+}
+
+/* Контейнер для логотипа */
+.logo-wrapper {
+    position: absolute; /* Логотип фиксируется */
+    left: 50%; /* Логотип сдвигаем на 50% */
+    transform: translateX(-50%); /* Центрируем логотип по горизонтали */
+}
+
+/* Логотип */
+.logo {
+    height: 50px; /* Устанавливаем высоту логотипа */
+}
+
+/* Контейнер для поля поиска */
+.search-wrapper {
+    display: flex;
+    justify-content: flex-end; /* Располагаем поле поиска по правому краю */
+    align-items: center;
+    flex-grow: 1; /* Поле поиска занимает оставшееся пространство */
+}
+
+/* Контейнер для поискового поля с иконкой */
+.search-box {
+    position: relative;
+    width: 40px; /* Начальная ширина поля поиска (круглый элемент) */
+    height: 40px; /* Высота также равна ширине */
+    transition: width 0.4s ease; /* Анимация для расширения */
+    border-radius: 25px; /* Округлые углы для полукруглого прямоугольника */
+    background-color: #ffffff; /* Белый цвет фона */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 90px; /* Сдвигаем на 30px левее */
+    box-sizing: border-box; /* Учитываем padding в размере контейнера */
+    cursor: pointer; /* Курсор меняется на указатель при наведении на поле */
+    user-select: none; /* Запрещаем выделение текста внутри контейнера */
+}
+
+/* Иконка лупы */
+.search-icon {
+    width: 20px; /* Размер иконки */
+    height: 20px;
+    background-image: url('фото/search.png'); /* Путь к изображению лупы */
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.4s ease; /* Анимация для сдвига иконки */
+    user-select: none; /* Запрещаем выделение текста на иконке */
+}
+
+/* Поле ввода */
+.search-input {
+    position: absolute;
+    width: 0;
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 25px; /* Округлые углы */
+    border: 2px solid #ffffff; /* Зеленая рамка */
+    outline: none;
+    font-size: 14px;
+    transition: width 0.4s ease; /* Анимация для увеличения ширины */
+    opacity: 0; /* Скрыто вначале */
+    box-sizing: border-box;
+}
+
+.search-input:focus {
+    width: 140px; /* Ширина после фокуса */
+    opacity: 1; /* Поле становится видимым */
+}
+
+/* Когда поле ввода в фокусе */
+.search-box:focus-within {
+    width: 200px; /* Расширяем контейнер при фокусе на поле ввода */
+}
+
+/* Сдвиг иконки лупы при фокусе на поле */
+.search-box:focus-within .search-icon {
+    transform: translateX(-80px); /* Сдвигаем иконку влево на 20px */
+}
+
+/* Скрытый чекбокс, управляющий меню */
+#menu-toggle {
+    display: none; /* Чекбокс скрыт, не видно */
+}
+
+/* Контейнер для кнопки меню */
+.menu-button {
+    position: fixed;
+    top: 70px; /* Сдвигаем кнопку меню ниже хедера */
+    left: 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 10px;
+    z-index: 1001;
+    transition: transform 0.3s ease;
+    transform-origin: center; /* Ось вращения в центре */
+    display: flex;
+    align-items: center;
+    user-select: none; /* Запрещаем выделение текста в кнопке */
+}
+
+/* Иконка меню */
+.menu-icon {
+    width: 75px;
+    height: 75px;
+    background-image: url('фото/icon.png'); /* Путь к иконке */
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    transition: transform 0.3s ease; /* Плавная смена картинки */
+    user-select: none; /* Запрещаем выделение картинки */
+}
+
+/* Текст "azasha" рядом с иконкой */
+.menu-text {
+    display: none; /* Текст скрыт по умолчанию */
+    font-family: 'MyCustomFont', sans-serif;
+    font-size: 24px; /* Увеличиваем размер шрифта */
+    margin-left: 10px; /* Отступ между иконкой и текстом */
+    color: white; /* Белый цвет текста */
+    opacity: 0; /* Исходная непрозрачность 0, чтобы текст был скрыт */
+    transform: translateY(-20px); /* Текст начнёт с небольшой смещённости вверх */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Плавное появление и смещение */
+    user-select: none; /* Запрещаем выделение текста */
+}
+
+/* Когда чекбокс активен, показываем текст "azasha" */
+#menu-toggle:checked + .menu-button .menu-text {
+    display: inline-block; /* Показываем текст */
+    opacity: 1; /* Убираем непрозрачность */
+    transform: translateY(0); /* Возвращаем текст на место */
+}
+
+/* Когда чекбокс активен (меню открывается) */
+#menu-toggle:checked + .menu-button .menu-icon {
+    transform: rotate(360deg); /* Вращаем иконку на 360 градусов */
+}
+
+/* Стили для меню */
+.side-menu {
+    position: fixed;
+    top: 55px; /* Устанавливаем меню ниже хедера */
+    left: -250px; /* Меню скрыто за экраном */
+    width: 250px;
+    height: 95px; /* Высота меню */
+    background-color: rgb(248, 255, 1); /* Желтый цвет фона */
+    color: black; /* Текст черный для контраста */
+    transition: left 0.3s ease;
+    padding-top: 50px;
+    z-index: 1000;
+    font-family: 'MyCustomFont', sans-serif; /* Применяем собственный шрифт */
+    border-radius: 0 0 15px 15px; /* Полукруглый угол внизу */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); /* Тень для меню */
+    user-select: none; /* Запрещаем выделение текста внутри меню */
+}
+
+/* Убираем нижнее подчеркивание у ссылок */
+.side-menu ul li a {
+    font-family: 'MyCustomFont', sans-serif;
+    color: rgb(189, 253, 79); /* Зеленый цвет для текста */
+    text-decoration: none; /* Убираем подчеркивание */
+    font-size: 18px;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    display: block;
+    user-select: none; /* Запрещаем выделение текста */
+}
+
+/* При наведении */
+.side-menu ul li a:hover {
+    background-color: rgb(189, 253, 79); /* Зеленый фон при наведении */
+    border-color: rgb(189, 253, 79); /* Зеленая граница при наведении */
+    font-weight: bold; /* Жирный шрифт */
+}
+
+/* Когда чекбокс активен, меню появляется */
+#menu-toggle:checked ~ .side-menu {
+    left: 0; /* Меню выезжает */
+}
+
+/* Запрещаем выделение текста и картинок */
+* {
+    user-select: none; /* Запрещаем выделение на всех элементах */
+}
+
+/* Запрещаем контекстное меню на всех изображениях */
+img {
+    pointer-events: none; /* Запрещаем любые взаимодействия с изображениями */
+}
+
+/* Можно добавить дополнительный стиль для иконок меню, если нужно */
+.menu-icon {
+    pointer-events: auto; /* Включаем взаимодействие с иконкой */
+}
+
+/* При наведении на изображения можно добавлять стили, чтобы они не выглядели как кликабельные */
+img {
+    pointer-events: none; /* Запрещаем клики по изображениям */
+}
+/* Текст "azasha" рядом с иконкой */
+.azasha-text {
+    display: none; /* Текст скрыт по умолчанию */
+    font-family: 'MyCustomFont', sans-serif;
+    font-size: 36px; /* Увеличиваем размер шрифта */
+    margin-left: 10px; /* Отступ между иконкой и текстом */
+    color: rgb(0, 0, 0); /* Черный цвет текста */
+    opacity: 0; /* Исходная непрозрачность 0, чтобы текст был скрыт */
+    transform: translateY(-40px); /* Текст начнёт с небольшой смещённости вверх (снаружи) */
+    transition: opacity 0.4s ease, transform 0.4s ease; /* Плавное появление и смещение */
+    user-select: none; /* Запрещаем выделение текста */
+}
+
+/* Когда чекбокс активен, показываем текст "azasha" */
+#menu-toggle:checked + .menu-button .azasha-text {
+    display: inline-block; /* Показываем текст */
+    opacity: 1; /* Убираем непрозрачность */
+    transform: translateY(0); /* Текст перемещается на свое место */
+}
+
+/* Когда чекбокс активен, меню появляется */
+#menu-toggle:checked ~ .side-menu {
+    left: 0; /* Меню выезжает */
+}
+
+/* Второе меню */
+.second-side-menu {
+    position: fixed;
+    top: 150px; /* Второе меню появляется ниже первого */
+    left: -250px; /* Меню скрыто за экраном */
+    width: 250px;
+    height: 132px; /* Высота второго меню */
+    background-color: rgb(141, 235, 1); /* Светло-зеленый цвет для второго меню */
+    color: black; /* Текст черный для контраста */
+    transition: left 0.3s ease; /* Убираем задержку, чтобы анимация была синхронной */
+    padding-top: 50px;
+    z-index: 999; /* Задний слой для второго меню */
+    font-family: 'MyCustomFont', sans-serif; /* Применяем собственный шрифт */
+    border-radius: 0 0 15px 15px; /* Полукруглый угол внизу */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); /* Тень для второго меню */
+    user-select: none; /* Запрещаем выделение текста внутри меню */
+}
+
+/* Когда чекбокс активен, второе меню появляется */
+#menu-toggle:checked ~ .second-side-menu {
+    left: 0; /* Второе меню выезжает */
+}
+
+/* Когда чекбокс не активен, оба меню одновременно уезжают */
+#menu-toggle:not(:checked) ~ .side-menu,
+#menu-toggle:not(:checked) ~ .second-side-menu {
+    left: -250px; /* Оба меню уезжают назад одновременно */
+}
+/* Убираем маркеры списка */
+.side-menu ul, 
+.second-side-menu ul {
+    list-style: none; /* Убираем точки (маркеры) у списка */
+    padding: 0; /* Убираем отступы */
+    margin: 0; /* Убираем маргины */
+}
+
+/* Убираем рамку у ссылок */
+.side-menu ul li a,
+.second-side-menu ul li a {
+    color: rgb(255, 255, 255); /* Белый цвет текста */
+    text-decoration: none; /* Убираем подчеркивание */
+    font-size: 18px;
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    border: none; /* Убираем рамку */
+    border-radius: 5px;
+    display: block;
+    user-select: none; /* Запрещаем выделение текста */
+}
+
+/* При наведении на ссылки */
+.side-menu ul li a:hover,
+.second-side-menu ul li a:hover {
+    background-color: rgb(127, 212, 0); /* Зеленый фон при наведении */
+}
+/* Стили для блока с динамическим контентом */
+.content-block {
+    padding: 20px;
+    margin-top: 70px;
+    margin-left: 150px;
+    margin-right: 0;
+    background-color: transparent;
+    border-radius: 20px;
+    width: calc(100% - 220px);
+    max-width: 1200px;
+    transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+/* Когда меню открыто, блок с контентом сдвигается вправо */
+#menu-toggle:checked ~ .content-block {
+    margin-left: 280px;
+    width: calc(100% - 350px);
+}
+
+/* Стиль для информации */
+.info-item {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid rgb(0 0 0 / 11%);
+    background-color: #ffffff;
+}
+
+.info-item p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.4;
+}
+
+/* Пустое сообщение, если нет информации */
+.empty {
+    font-size: 18px;
+    color: #777;
+    text-align: center;
+    padding: 20px;
+}

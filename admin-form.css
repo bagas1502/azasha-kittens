@@ -1,0 +1,172 @@
+/* Оформление для блока поста */
+.content-item {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 15px;  /* Более закругленные углы */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);  /* Легкая тень */
+    width: 100%;
+    max-width: 600px;
+    transition: all 0.3s ease;  /* Плавное изменение */
+    position: relative;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.content-item:hover {
+    transform: translateY(-5px);  /* Легкий подъем при наведении */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);  /* Увеличение тени */
+}
+
+/* Заголовок */
+.content-item h4 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Описание */
+.content-item p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* Стили для изображения */
+.image-gallery {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    overflow-x: auto;
+}
+
+.image-item img {
+    width: 100%;
+    max-width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.image-item img:hover {
+    transform: scale(1.05);  /* Увеличение при наведении */
+}
+
+/* Кнопка удаления */
+.delete-btn {
+    background-color: #ff3b30;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 20px;
+    font-size: 14px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #d92e2a;
+}
+
+/* Стрелки для прокрутки */
+.scroll-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 22px;
+    z-index: 1;
+    transition: background-color 0.3s ease;
+}
+
+.scroll-left {
+    left: 5px;
+}
+
+.scroll-right {
+    right: 5px;
+}
+
+.scroll-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Кнопка удаления для изображений */
+.delete-image-btn {
+    background-color: rgba(255, 0, 0, 0.6);
+    color: white;
+    border-radius: 50%;
+    font-size: 18px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.delete-image-btn:hover {
+    background-color: rgba(255, 0, 0, 1);
+}
+
+/* Кнопка добавления новой записи */
+.add-item-btn {
+    background: linear-gradient(135deg, #6e7bff, #4b54ea);
+    color: white;
+    border: none;
+    padding: 18px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 30px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-item-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+}
+
+.add-item-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Увеличение изображений в галерее */
+.image-preview {
+    width: 200px;
+    height: 200px;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 15px;
+    border: 2px solid black;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, filter 0.3s ease;
+}
+
+.image-preview:hover {
+    filter: brightness(0.8) sepia(0.6) saturate(1.2) hue-rotate(60deg);
+}
+
+.image-preview.enlarged {
+    transform: scale(2);
+    z-index: 10;
+}

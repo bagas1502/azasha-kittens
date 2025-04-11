@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="kotiki1.css"> <!-- Подключаем внешний CSS файл -->
+</head>
+<body>
+
+    <!-- Хедер -->
+    <header>
+        <div class="logo-wrapper">
+            <img src="фото/logo.png" alt="Логотип" class="logo">
+        </div>
+    </header>
+    <!-- Контент авторизации -->
+    <div class="login-container">
+        <h2>Авторизация администратора</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Логин</label>
+                <input type="text" id="username" name="username" required placeholder="Введите логин">
+            </div>
+            <div class="input-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" required placeholder="Введите пароль">
+            </div>
+            <button type="submit" class="submit-btn">Войти</button>
+        </form>
+
+        <div id="error-message" class="error-message"></div>
+    </div>
+
+    <script>
+        const adminUsername = "mikulya";  // Логин
+        const adminPassword = "24072010azasha";  // Пароль
+
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username === adminUsername && password === adminPassword) {
+                window.location.href = "admin-panel.html";  // Перенаправление на панель администратора
+            } else {
+                document.getElementById("error-message").textContent = "Неверный логин или пароль. Попробуйте снова.";
+            }
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            padding: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-wrapper img {
+            width: 125px;
+        }
+
+
+        .login-container {
+            width: 300px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 93%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #555;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+
+</body>
+</html>

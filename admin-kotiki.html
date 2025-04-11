@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пример с меню</title>
+    <link rel="stylesheet" href="kotiki1.css">
+    <link rel="stylesheet" href="admin-form.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        .content-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            width: 100%;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        .add-item-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-item-form input, .add-item-form select, .add-item-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .add-item-form textarea {
+            resize: vertical;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            min-height: 100px;
+        }
+
+        .content-item {
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: left;
+            margin-bottom: 15px;
+            position: relative;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-all;
+        }
+
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .add-item-btn {
+            background: linear-gradient(135deg, #6e7bff, #4b54ea);
+            color: white;
+            border: none;
+            padding: 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 30px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        .add-item-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+            background-color: #4b54ea;
+        }
+
+        .add-item-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .add-item-btn i {
+            font-size: 40px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .add-item-btn:hover i {
+            transform: rotate(45deg);
+        }
+
+        .image-preview {
+            width: 200px;
+            height: 200px;
+            margin-top: 10px;
+            margin-right: 10px;
+            border-radius: 15px;
+            border: 2px solid black;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out, filter 0.3s ease;
+        }
+
+        .image-preview:hover {
+            filter: brightness(0.8) sepia(0.6) saturate(1.2) hue-rotate(60deg);
+        }
+
+        .image-preview.enlarged {
+            transform: scale(2);
+            z-index: 10;
+        }
+
+        .image-gallery {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 500px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-item {
+            display: inline-block;
+            position: relative;
+        }
+
+        .delete-image-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 0, 0, 0.6);
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .delete-image-btn:hover {
+            background-color: rgba(255, 0, 0, 1);
+        }
+
+        /* Стрелки для прокрутки */
+        .scroll-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 20px;
+            z-index: 1;
+        }
+
+        .scroll-left {
+            left: 10px;
+        }
+
+        .scroll-right {
+            right: 10px;
+        }
+
+        /* Модальное окно */
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #modal img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        #modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        /* Медиа-запросы для мобильных устройств */
+        @media screen and (max-width: 360px) {
+            .add-item-btn {
+                padding: 15px;
+                font-size: 25px;
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .add-item-form {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .add-item-form input,
+            .add-item-form select,
+            .add-item-form textarea {
+                padding: 8px;
+                font-size: 14px;
+            }
+
+            .content-item {
+                width: 95%;
+                padding: 12px;
+                margin: 8px 0;
+            }
+
+            .content-item h4 {
+                font-size: 16px;
+            }
+
+            .content-item p {
+                font-size: 14px;
+            }
+
+            .image-preview {
+                width: 120px;
+                height: 120px;
+                margin-top: 5px;
+                margin-right: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-wrapper">
+            <img src="фото/logo.png" alt="Логотип" class="logo">
+        </div>
+    </header>
+
+    <div class="content-block">
+        <div class="content-actions">
+            <button class="add-item-btn" onclick="showAddItemForm()">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+
+        <div id="add-item-form" class="add-item-form" style="display:none;">
+            <h3>Добавление новой информации</h3>
+            <form id="addItemForm">
+                <input type="text" id="new-item-nickname" placeholder="Введите никнейм" maxlength="25" required>
+                
+                <label for="new-item-category">Категория:</label>
+                <select id="new-item-category">
+                    <option value="Все" selected>Все</option>
+                    <option value="Книги">Книги</option>
+                    <option value="Товары">Товары</option>
+                    <option value="Информация">Информация</option>
+                </select>
+
+                <label for="new-item-description">Описание:</label>
+                <textarea id="new-item-description" placeholder="Введите описание" required></textarea>
+
+                <div id="image-gallery" class="image-gallery"></div>
+
+                <button type="button" class="add-image-btn" onclick="addImage()">+</button>
+
+                <button type="button" class="submit-btn" onclick="publishItem()">Опубликовать</button>
+            </form>
+        </div>
+
+        <h3>Все публикации:</h3>
+        <div id="content-list" class="content-list"></div>
+    </div>
+
+    <!-- Модальное окно для отображения изображения -->
+    <div id="modal">
+        <img id="modal-img" src="" alt="Увеличенное изображение">
+        <button id="modal-close" onclick="closeModal()">X</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script>
+        const contentItems = JSON.parse(localStorage.getItem('contentItems')) || [];
+
+        function showAddItemForm() {
+            document.getElementById('add-item-form').style.display = 'block';
+            document.getElementById('image-gallery').innerHTML = '';
+            sessionStorage.removeItem('currentImages');
+        }
+
+        function publishItem() {
+            const nickname = document.getElementById('new-item-nickname').value;
+            if (!nickname) {
+                alert("Никнейм обязателен для публикации!");
+                return;
+            }
+
+            const category = document.getElementById('new-item-category').value;
+            const description = document.getElementById('new-item-description').value;
+
+            const images = JSON.parse(sessionStorage.getItem('currentImages')) || [];
+
+            const currentDate = new Date();
+            const dateTime = `${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`;
+
+            const newItem = { nickname, category, description, images, dateTime };
+
+            contentItems.unshift(newItem);
+            localStorage.setItem('contentItems', JSON.stringify(contentItems));
+
+            document.getElementById('new-item-nickname').value = '';
+            document.getElementById('new-item-description').value = '';
+            document.getElementById('image-gallery').innerHTML = '';
+
+            updateContentList();
+            document.getElementById('add-item-form').style.display = 'none';
+        }
+
+        function updateContentList() {
+            const contentListContainer = document.getElementById('content-list');
+            contentListContainer.innerHTML = '';
+
+            contentItems.forEach((item, index) => {
+                const contentItemElement = document.createElement('div');
+                contentItemElement.classList.add('content-item');
+
+                const imageGalleryHtml = item.images.map((image, imgIndex) => {
+                    return `<div class="image-item">
+                                <img src="${image}" class="image-preview" onclick="openModal(this)" />
+                            </div>`;
+                }).join('');
+
+                contentItemElement.innerHTML = `
+                    <h4>${item.nickname}</h4>
+                    <div class="image-gallery">
+                        <button class="scroll-arrow scroll-left" onclick="scrollImages(${index}, 'left')">&#8592;</button>
+                        ${imageGalleryHtml}
+                        <button class="scroll-arrow scroll-right" onclick="scrollImages(${index}, 'right')">&#8594;</button>
+                    </div>
+                    <p><strong>Категория:</strong> ${item.category}</p>
+                    <p><strong>Описание:</strong> ${item.description}</p>
+                    <p><strong>Дата публикации:</strong> ${item.dateTime}</p>
+                    <button class="delete-btn" onclick="deleteItem(${index})">Удалить</button>
+                `;
+
+                contentListContainer.appendChild(contentItemElement);
+            });
+        }
+
+        function scrollImages(postIndex, direction) {
+            const contentItem = contentItems[postIndex];
+            if (contentItem.images.length === 0) return;
+
+            const gallery = document.querySelectorAll('.content-item')[postIndex].querySelector('.image-gallery');
+            const images = gallery.querySelectorAll('.image-item');
+            
+            if (direction === 'left') {
+                gallery.appendChild(images[0]);
+            } else if (direction === 'right') {
+                gallery.prepend(images[images.length - 1]);
+            }
+        }
+
+        function deleteItem(index) {
+            const confirmDelete = window.confirm("Вы точно хотите удалить этот пост?");
+            if (confirmDelete) {
+                contentItems.splice(index, 1);
+                localStorage.setItem('contentItems', JSON.stringify(contentItems));
+                updateContentList();
+            }
+        }
+
+        function addImage() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function() {
+                        const image = reader.result;
+
+                        const imageItem = document.createElement('div');
+                        imageItem.classList.add('image-item');
+                        imageItem.innerHTML = `
+                            <img src="${image}" class="image-preview" onclick="openModal(this)" />
+                            <button class="delete-image-btn" onclick="deleteImage(this)">X</button>
+                        `;
+
+                        document.getElementById('image-gallery').appendChild(imageItem);
+
+                        const currentImages = JSON.parse(sessionStorage.getItem('currentImages')) || [];
+                        currentImages.push(image);
+                        sessionStorage.setItem('currentImages', JSON.stringify(currentImages));
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        function deleteImage(image) {
+            const imageSrc = image.src;
+            let currentImages = JSON.parse(sessionStorage.getItem('currentImages')) || [];
+            currentImages = currentImages.filter(src => src !== imageSrc);
+            sessionStorage.setItem('currentImages', JSON.stringify(currentImages));
+
+            image.closest('.image-item').remove();
+        }
+
+        function openModal(imgElement) {
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modal-img');
+            modal.style.display = 'flex';
+            modalImg.src = imgElement.src;
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        updateContentList();
+    </script>
+</body>
+</html>
